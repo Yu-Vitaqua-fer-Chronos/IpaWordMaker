@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">  
+    <meta name="description" content="A tool to allow for you to drag and drop IPA symbols to form words of your own making!">
+    <meta name="author" content="Yu Vitaqua fer Chronos">
+    <meta name="color-scheme" content="dark light">
+
+    <title>IPA Word Maker</title>
+
+    <script src="mespeak/mespeak.js">meSpeak.loadVoice("voices/en/en.json");</script>
+    <script src="scripts/main.js"></script>
+
+    <link rel="stylesheet" href="styles/main.css">
+    <style type="text/css">
+      .tg  {border-collapse:collapse;border-spacing:0;}
+      .tg td{border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+        overflow:hidden;padding:10px 5px;word-break:normal;}
+      .tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+      @media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}
+    </style>
+  </head>
+
+  <body onload="loadNewVoice()">
+    <div id="container" class="center">
+      <textarea id="ipaInput" name="IPA Input" rows="1" cols="50"></textarea>
+      <button type="button" onclick="speakIpa()">Read</button>
+      <br>
+      <label for="voices">Change Voice</label>
+        <select name="voices" id="voices" onchange="loadNewVoice()">
+          <option value="voices/en/en.json">en</option>
+          <option value="voices/ca.json">ca</option>
+          <option value="voices/en/en-us.json">en-us</option>
+          <option value="voices/it.json">it</option>
+          <option value="voices/ro.json">ro</option>
+          <option value="voices/cs.json">cs</option>
+          <option value="voices/en/en-wm.json">en-wm</option>
+          <option value="voices/kn.json">kn</option>
+          <option value="voices/sk.json">sk</option>
+          <option value="voices/de.json">de</option>
+          <option value="voices/eo.json">eo</option>
+          <option value="voices/la.json">la</option>
+          <option value="voices/sv.json">sv</option>
+          <option value="voices/el.json">el</option>
+          <option value="voices/es.json">es</option>
+          <option value="voices/lv.json">lv</option>
+          <option value="voices/tr.json">tr</option>
+          <option value="voices/es-la.json">es-la</option>
+          <option value="voices/nl.json">nl</option>
+          <option value="voices/zh.json">zh</option>
+          <option value="voices/en/en-n.json">en-n</option>
+          <option value="voices/fi.json">fi</option>
+          <option value="voices/pl.json">pl</option>
+          <option value="voices/zh-yue.json">zh-yue</option>
+          <option value="voices/en/en-rp.json">en-rp</option>
+          <option value="voices/fr.json">fr</option>
+          <option value="voices/pt.json">pt</option>
+          <option value="voices/en/en-sc.json">en-sc</option>
+          <option value="voices/hu.json">hu</option>
+          <option value="voices/pt-pt.json">pt-pt</option>
+        </select>
+
+      <div id="insertIpaButtons">
+        <div class="tg-wrap">
+          <table class="tg">
+            <tbody>
+              <tr>
+                <td class="tg-0pky"> </td>
+                <td class="tg-0pky">Bilabial</td>
+                <td class="tg-0pky">Labiodental</td>
+                <td class="tg-0pky">Dental</td>
+                <td class="tg-0pky">Aveolar</td>
+                <td class="tg-0pky">Postalveolar</td>
+                <td class="tg-0pky">Retroflex</td>
+                <td class="tg-0pky">Palatal</td>
+                <td class="tg-0pky">Velar</td>
+                <td class="tg-0pky">Uvular</td>
+                <td class="tg-0pky">Pharyngeal</td>
+                <td class="tg-0pky">Glottal</td>
+              </tr>
+              <tr>
+                <td class="tg-0pky">Plosive</td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Lower-case P - Voiceless bilabial plosive" onclick="ipaButton('p')">p</button>
+                  <button class="ipaButton" title="Lower-case B - Voiced bilabial plosive" onclick="ipaButton('b')">b</button>
+                </td>
+                <td class="tg-0pky"> </td>
+                <td class="tg-0pky" colspan="3">
+                  <button class="ipaButton" title="Lower-case T - Voiceless dental or alveolar plosive" onclick="ipaButton('t')">t</button>
+                  <button class="ipaButton" title="Lower-case D - Voiced dental or alveolar plosive" onclick="ipaButton('d')">d</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Right-tail T - Voiceless retroflex plosive" onclick="ipaButton('ʈ')">ʈ</button>
+                  <button class="ipaButton" title="Right-tail D - Voiced retroflex plosive" onclick="ipaButton('ɖ')">ɖ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Lower-case C - Voiceless palatal plosive" onclick="ipaButton('c')">c</button>
+                  <button class="ipaButton" title="Barred dotless J - Voiced palatal plosive" onclick="ipaButton('ɟ')">ɟ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Lower-case K - Voiceless velar plosive" onclick="ipaButton('k')">k</button>
+                  <button class="ipaButton" title="Opentail G - Voiced velar plosive" onclick="ipaButton('ɡ')">ɡ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Lower-case Q - Voiceless uvular plosive" onclick="ipaButton('q')">q</button>
+                  <button class="ipaButton" title="Small capital G - Voiced uvular plosive" onclick="ipaButton('ɢ')">ɢ</button>
+                </td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Glottal stop - Glottal plosive" onclick="ipaButton('ʔ')">ʔ</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="tg-0pky">Nasal</td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Lower-case M - Voiced bilabial nasal" onclick="ipaButton('m')">m</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Left-tail M (at right) - Voiced labiodental nasal" onclick="ipaButton('ɱ')">ɱ</button>
+                </td>
+                <td class="tg-0pky" colspan="3">
+                  <button class="ipaButton" title="Lower-case N - Voiced dental or alveolar nasal" onclick="ipaButton('n')">n</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Right-tail N - Voiced retroflex nasal" onclick="ipaButton('ɳ')">ɳ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Left-tail N (at left) - Voiced palatal nasal" onclick="ipaButton('ɲ')">ɲ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Eng - Voiced velar nasal" onclick="ipaButton('ŋ')">ŋ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Small capital N - Voiced uvular nasal" onclick="ipaButton('ɴ')">ɴ</button>
+                </td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+              </tr>
+              <tr>
+                <td class="tg-0pky">Trill</td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Upper-case B - Voiced bilabial trill" onclick="ipaButton('B')">B</button>
+                </td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky" colspan="3">
+                  <button class="ipaButton" title="Lower-case R - Voiced dental or alveolar trill" onclick="ipaButton('r')">r</button>
+                </td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Small capital R - Voiced uvular trill" onclick="ipaButton('ʀ')">ʀ</button>
+                </td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+              </tr>
+              <tr>
+                <td class="tg-0pky">Tap/Flap</td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky" colspan="3">
+                  <button class="ipaButton" title="Fish-hook R - Voiced dental or alveolar tap" onclick="ipaButton('ɾ')">ɾ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Right-tail R - Voiced retroflex flap" onclick="ipaButton('ɽ')">ɽ</button>
+                </td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+              </tr>
+              <tr>
+                <td class="tg-0pky">Fricative</td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Phi - Voiceless bilabial fricative" onclick="ipaButton('ɸ')">ɸ</button>
+                  <button class="ipaButton" title="Beta - Voiced bilabial fricative" onclick="ipaButton('β')">β</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Lower-case F - Voiceless labiodental fricative" onclick="ipaButton('f')">f</button>
+                  <button class="ipaButton" title="Lower-case V - Voiced labiodental fricative" onclick="ipaButton('v')">v</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Theta - Voiceless dental fricative" onclick="ipaButton('θ')">θ</button>
+                  <button class="ipaButton" title="Eth - Voiced dental fricative" onclick="ipaButton('ð')">ð</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Lower-case S - Voiceless alveolar fricative" onclick="ipaButton('s')">s</button>
+                  <button class="ipaButton" title="Lower-case Z - Voiced alveolar fricative" onclick="ipaButton('z')">z</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Esh - Voiceless postalveolar fricative" onclick="ipaButton('ʃ')">ʃ</button>
+                  <button class="ipaButton" title="Ezh; Tailed Z - Voiced postalveolar fricative" onclick="ipaButton('ʒ')">ʒ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Right-Tail S (at left) - Voiceless retroflex fricative" onclick="ipaButton('ʂ')">ʂ</button>
+                  <button class="ipaButton" title="Right-tail Z - Voiced retroflex fricative" onclick="ipaButton('ʐ')">ʐ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="C cedilla - Voiceless palatal fricative" onclick="ipaButton('ç')">ç</button>
+                  <button class="ipaButton" title="Curly-tail J - Voiced palatal fricative" onclick="ipaButton('ʝ')">ʝ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Lower-case X - Voiceless velar fricative" onclick="ipaButton('x')">x</button>
+                  <button class="ipaButton" title="Gamma - Voiced velar fricative" onclick="ipaButton('ɣ')">ɣ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Chi - Voiceless uvular fricative" onclick="ipaButton('χ')">χ</button>
+                  <button class="ipaButton" title="Inverted small capital R - Voiced uvular fricative" onclick="ipaButton('ʁ')">ʁ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Barred H - Voiceless pharyngeal fricative" onclick="ipaButton('ħ')">ħ</button>
+                  <button class="ipaButton" title="Reversed glottal stop - Voiced pharyngeal fricative or approximant" onclick="ipaButton('ʕ')">ʕ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Lower-case H - Voiceless glottal fricative" onclick="ipaButton('h')">h</button>
+                  <button class="ipaButton" title="Hooktop H - Voiced glottal fricative" onclick="ipaButton('ɦ')">ɦ</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="tg-0pky">Lateral Fricative</td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky" colspan="3">
+                  <button class="ipaButton" title="Belted L - Voiceless dental or alveolar lateral fricative" onclick="ipaButton('ɬ')">ɬ</button>
+                  <button class="ipaButton" title="L-Ezh ligature - Voiced dental or alveolar lateral fricative" onclick="ipaButton('ɮ')">ɮ</button>
+                </td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+              </tr>
+              <tr>
+                <td class="tg-0pky">Approximant</td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Cursive V - Voiced labiodental approximant" onclick="ipaButton('ʋ')">ʋ</button>
+                </td>
+                <td class="tg-0pky" colspan="3">
+                  <button class="ipaButton" title="Turned R - Voiced dental or alveolar approximant" onclick="ipaButton('ɹ')">ɹ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Turned R, right Tail - Voiced retroflex approximant" onclick="ipaButton('ɻ')">ɻ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Lower-case J - Voiced palatal approximant" onclick="ipaButton('j')">j</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Turned M, right Leg - Voiced velar approximant" onclick="ipaButton('ɰ')">ɰ</button>
+                </td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+              </tr>
+              <tr>
+                <td class="tg-0pky">Lateral Approximant</td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky" colspan="3">
+                  <button class="ipaButton" title="Lower-case L - Voiced dental or alveolar lateral approximant" onclick="ipaButton('l')">l</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Right-tail L - Voiced retroflex lateral approximate" onclick="ipaButton('ɭ')">ɭ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Turned Y - Voiced palatal lateral approximant" onclick="ipaButton('ʎ')">ʎ</button>
+                </td>
+                <td class="tg-0pky">
+                  <button class="ipaButton" title="Small capital L - Voiced velar lateral approximate" onclick="ipaButton('ʟ')">ʟ</button>
+                </td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+                <td class="tg-0pky"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <br>
+
+          <table class="tg">
+            <tbody>
+              <tr>
+                <td class="tg-0lax">Clicks</td>
+                <td class="tg-0lax">Voiced Implosives</td>
+                <td class="tg-0lax">Ejectives</td>
+              </tr>
+              <tr>
+                <td class="tg-0lax">
+                  <button class="ipaButton" title="Bull's eye - Bilabial click" onclick="ipaButton('ʘ')">ʘ</button>
+                  <button class="ipaButton" title="Pipe - Dental click" onclick="ipaButton('ǀ')">ǀ</button>
+                  <button class="ipaButton" title="Exclamation point, Right-sited exclamation point - Harsh" onclick="ipaButton('ǃ')">ǃ</button>
+                  <button class="ipaButton" title="Double-barred pipe - Palatoalveolar click" onclick="ipaButton('ǂ')">ǂ</button>
+                  <button class="ipaButton" title="Double pipe - Alveolar lateral click" onclick="ipaButton('ǁ')">ǁ</button>
+                </td>
+                <td class="tg-0lax">
+                  <button class="ipaButton" title="Hooktop B - Voiced bilabial implosive" onclick="ipaButton('ɓ')">ɓ</button>
+                  <button class="ipaButton" title="Hooktop D - Voiced dental or alveolar implosive" onclick="ipaButton('ɗ')">ɗ</button>
+                  <button class="ipaButton" title="Hooktop barred dotless J - Voiced palatal implosive" onclick="ipaButton('ʄ')">ʄ</button>
+                  <button class="ipaButton" title="Hooktop G - Voiced velar implosive" onclick="ipaButton('ɠ')">ɠ</button>
+                  <button class="ipaButton" title="Hooktop small capital G - Voiced uvular implosive" onclick="ipaButton('ʛ')">ʛ</button>
+                </td>
+                <td class="tg-0lax">
+                  <button class="ipaButton" title="Apostrophe - Ejective" onclick="ipaButton('ʼ')">ʼ</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <br>
+
+        <button class="ipaButton" title="Hooktop P - Voiceless bilabial implosive" onclick="ipaButton('ƥ')">ƥ</button>
+        <button class="ipaButton" title="Hooktop T - Voiceless dental or alveolar implosive" onclick="ipaButton('ƭ')">ƭ</button>
+        <button class="ipaButton" title="Hooktop C - Voiceless palatal implosive" onclick="ipaButton('ƈ')">ƈ</button>
+        <button class="ipaButton" title="Hooktop K - Voiceless velar implosive" onclick="ipaButton('ƙ')">ƙ</button>
+
+        <button class="ipaButton" title="Hooktop Q - Voiceless uvular implosive" onclick="ipaButton('ʠ')">ʠ</button>
+        <button class="ipaButton" title="Turned W - Voiceless labial-velar fricative" onclick="ipaButton('ʍ')">ʍ</button>
+        <button class="ipaButton" title="Lower-case W - Voiced labial-velar approximant" onclick="ipaButton('w')">w</button>
+        <button class="ipaButton" title="Turned H - Voiced labial-palatal approximant" onclick="ipaButton('ɥ')">ɥ</button>
+        <button class="ipaButton" title="Small capital H - Voiceless epiglottal fricative" onclick="ipaButton('ʜ')">ʜ</button>
+        <button class="ipaButton" title="Barred glottal stop - Epiglottal plosive" onclick="ipaButton('ʡ')">ʡ</button>
+        <button class="ipaButton" title="Barred reversed glottal stop - Voiced epiglottal fricative or approximant" onclick="ipaButton('ʢ')">ʢ</button>
+        <button class="ipaButton" title="Hooktop heng - Simultaneous voiceless postalveolar and velar fricative" onclick="ipaButton('ɧ')">ɧ</button>
+
+        <button class="ipaButton" title="Turned long-leg R - Voiced alveolar lateral flap" onclick="ipaButton('ɺ')">ɺ</button>
+        <button class="ipaButton" title="Curly-tail C - Voiceless alveolo-palatal fricative" onclick="ipaButton('ɕ')">ɕ</button>
+        <button class="ipaButton" title="Curly-tail Z - Voiced alveolo-palatal fricative" onclick="ipaButton('ʑ')">ʑ</button>
+        <button class="ipaButton" title="Right-hook V - Voiced labiodental flap" onclick="ipaButton('ⱱ')">ⱱ</button>
+        <button class="ipaButton" title="Turned T - Dental click" onclick="ipaButton('ʇ')">ʇ</button>
+        <button class="ipaButton" title="Stretched C - Postalveolar click" onclick="ipaButton('ʗ')">ʗ</button>
+        <button class="ipaButton" title="Inverted glottal stop - Alveolar lateral click" onclick="ipaButton('ʖ')">ʖ</button>
+        <button class="ipaButton" title="Curly-tail esh - " onclick="ipaButton('ʆ')">ʆ</button>
+        <button class="ipaButton" title="Curly-tail ezh - " onclick="ipaButton('ʓ')">ʓ</button>
+        <button class="ipaButton" title="Long-leg R - " onclick="ipaButton('ɼ')">ɼ</button>
+        <button class="ipaButton" title="Superscript S - " onclick="ipaButton('ˢ')">ˢ</button>
+        <button class="ipaButton" title="Left-hook T - Palatalized Voiceless dental or alveolar plosive" onclick="ipaButton('ƫ')">ƫ</button>
+        <button class="ipaButton" title="L with tilde - Velarized voiced dental or alveolar lateral approximant" onclick="ipaButton('ɫ')">ɫ</button>
+        <button class="ipaButton" title="Looptail G - Voiced velar plosive" onclick="ipaButton('g')">g</button>
+        <button class="ipaButton" title="T-S ligature - Voiceless dental or alveolar affricate" onclick="ipaButton('ʦ')">ʦ</button>
+        <button class="ipaButton" title="D-Z ligature - Voiced alveolar affricate" onclick="ipaButton('ʣ')">ʣ</button>
+        <button class="ipaButton" title="T-Esh ligature - Voiceless postalveolar affricate" onclick="ipaButton('ʧ')">ʧ</button>
+        <button class="ipaButton" title="D-Ezh ligature - Voiced postalveolar affricate" onclick="ipaButton('ʤ')">ʤ</button>
+        <button class="ipaButton" title="T-Curly-tail-C ligature - Voiceless alveolo-palatal affricate" onclick="ipaButton('ʨ')">ʨ</button>
+        <button class="ipaButton" title="D-Curly-tail-Z ligature - Voiced alveolo-palatal affricate" onclick="ipaButton('ʥ')">ʥ</button>
+        <button class="ipaButton" title="Superscript theta - Voiceless dental fricative release" onclick="ipaButton('ᶿ')">ᶿ</button>
+        <button class="ipaButton" title="Superscript schwa - Mid central vowel release" onclick="ipaButton('ᵊ')">ᵊ</button>
+        <button class="ipaButton" title="Hooktop right-tail D - Voiced retroflex implosive" onclick="ipaButton('ᶑ')">ᶑ</button>
+        <button class="ipaButton" title="Barred two - " onclick="ipaButton('ƻ')">ƻ</button>
+        <button class="ipaButton" title="Turned K - " onclick="ipaButton('ʞ')">ʞ</button>
+        <button class="ipaButton" title="Superscript X - Voiceless velar fricative release" onclick="ipaButton('ˣ')">ˣ</button>
+        <button class="ipaButton" title="N, right leg - Syllabic nasal" onclick="ipaButton('ƞ')">ƞ</button>
+        <button class="ipaButton" title="Barred lambda - Voiceless dental or alveolar lateral affricate" onclick="ipaButton('ƛ')">ƛ</button>
+        <button class="ipaButton" title="Lambda - Voiceless dental or alveolar lateral fricative" onclick="ipaButton('λ')">λ</button>
+        <button class="ipaButton" title="Z wedge - Voiced postalveolar fricative" onclick="ipaButton('ž')">ž</button>
+        <button class="ipaButton" title="S wedge - Voiceless postalveolar fricative" onclick="ipaButton('š')">š</button>
+        <button class="ipaButton" title="J wedge - Voiced postalveolar affricate" onclick="ipaButton('ǰ')">ǰ</button>
+        <button class="ipaButton" title="C wedge - Voiceless postalveolar affricate" onclick="ipaButton('č')">č</button>
+        <button class="ipaButton" title="Lower-case I - Close front unrounded vowel" onclick="ipaButton('i')">i</button>
+        <button class="ipaButton" title="Lower-case E - Close-mid front unrounded vowel" onclick="ipaButton('e')">e</button>
+        <button class="ipaButton" title="Epsilon - Open-mid front unrounded vowel" onclick="ipaButton('ɛ')">ɛ</button>
+        <button class="ipaButton" title="Lower-case A - Open front unrounded vowel" onclick="ipaButton('a')">a</button>
+        <button class="ipaButton" title="Script A - Open back unrounded vowel" onclick="ipaButton('ɑ')">ɑ</button>
+        <button class="ipaButton" title="Open O - Open-mid back rounded vowel" onclick="ipaButton('ɔ')">ɔ</button>
+        <button class="ipaButton" title="Lower-case O - Close-mid back rounded vowel" onclick="ipaButton('o')">o</button>
+        <button class="ipaButton" title="Lower-case U - Close back rounded vowel" onclick="ipaButton('u')">u</button>
+        <button class="ipaButton" title="Lower-case Y - Close front rounded vowel" onclick="ipaButton('y')">y</button>
+        <button class="ipaButton" title="Slashed O - Close-mid front rounded vowel" onclick="ipaButton('ø')">ø</button>
+        <button class="ipaButton" title="Lower-case O-E ligature - Open-mid front rounded vowel" onclick="ipaButton('œ')">œ</button>
+        <button class="ipaButton" title="Small capital O-E ligature - Open front rounded vowel" onclick="ipaButton('ɶ')">ɶ</button>
+        <button class="ipaButton" title="Turned Script A - Open back rounded vowel" onclick="ipaButton('ɒ')">ɒ</button>
+        <button class="ipaButton" title="Turned V - Open-mid back unrounded vowel" onclick="ipaButton('ʌ')">ʌ</button>
+        <button class="ipaButton" title="Ram's Horns - Close-mid back unrounded vowel" onclick="ipaButton('ɤ')">ɤ</button>
+        <button class="ipaButton" title="Turned M - Close back unrounded vowel" onclick="ipaButton('ɯ')">ɯ</button>
+        <button class="ipaButton" title="Barred I - Close central unrounded vowel" onclick="ipaButton('ɨ')">ɨ</button>
+        <button class="ipaButton" title="Barred U - Close central rounded vowel" onclick="ipaButton('ʉ')">ʉ</button>
+        <button class="ipaButton" title="Small capital I - Near-close near-front unrounded vowel" onclick="ipaButton('ɪ')">ɪ</button>
+        <button class="ipaButton" title="Small capital Y - Near-close near-front rounded vowel" onclick="ipaButton('ʏ')">ʏ</button>
+        <button class="ipaButton" title="Upsilon - Near-close near-back rounded vowel" onclick="ipaButton('ʊ')">ʊ</button>
+        <button class="ipaButton" title="Schwa - Mid central vowel" onclick="ipaButton('ə')">ə</button>
+        <button class="ipaButton" title="Barred O - Close-mid central rounded vowel" onclick="ipaButton('ɵ')">ɵ</button>
+        <button class="ipaButton" title="Turned A - Near-open central vowel" onclick="ipaButton('ɐ')">ɐ</button>
+        <button class="ipaButton" title="Ash; Lower-case A-E ligature - Near-open front unrounded vowel" onclick="ipaButton('æ')">æ</button>
+        <button class="ipaButton" title="Reversed epsilon - Open-mid central unrounded vowel" onclick="ipaButton('ɜ')">ɜ</button>
+        <button class="ipaButton" title="Right-hook schwa - R-coloured mid central vowel" onclick="ipaButton('ɚ')">ɚ</button>
+        <button class="ipaButton" title="Undotted I - " onclick="ipaButton('ı')">ı</button>
+        <button class="ipaButton" title="Closed reversed epsilon - Open-mid central rounded vowel" onclick="ipaButton('ɞ')">ɞ</button>
+        <button class="ipaButton" title="Closed epsilon - Open-mid central rounded vowel" onclick="ipaButton('ʚ')">ʚ</button>
+        <button class="ipaButton" title="Reversed E - Close-mid central unrounded vowel" onclick="ipaButton('ɘ')">ɘ</button>
+        <button class="ipaButton" title="Closed omega - Near-close near-back rounded vowel" onclick="ipaButton('ɷ')">ɷ</button>
+        <button class="ipaButton" title="Iota - Near-close near-front unrounded vowel" onclick="ipaButton('ɩ')">ɩ</button>
+
+        <button class="ipaButton" title="Under-ring - Voiceless" onclick="ipaButton('̥')">̥</button>
+        <button class="ipaButton" title="Over-ring - Voiceless (use if character has descender)" onclick="ipaButton('̊')">̊</button>
+        <button class="ipaButton" title="Subscript wedge - Voiced" onclick="ipaButton('̬')">̬</button>
+        <button class="ipaButton" title="Superscript H, Left-sited superscript H - Pre-aspiration" onclick="ipaButton('ʰ')">ʰ</button>
+        <button class="ipaButton" title="Subscript umlaut - Breathy voiced" onclick="ipaButton('̤')">̤</button>
+        <button class="ipaButton" title="Subscript tilde - Creaky voiced" onclick="ipaButton('̰')">̰</button>
+        <button class="ipaButton" title="Subscript seagull - Linguolabial" onclick="ipaButton('̼')">̼</button>
+        <button class="ipaButton" title="Subscript bridge - Dental" onclick="ipaButton('̪')">̪</button>
+        <button class="ipaButton" title="Inverted subscript bridge - Apical" onclick="ipaButton('̺')">̺</button>
+        <button class="ipaButton" title="Subscript square - Laminal" onclick="ipaButton('̻')">̻</button>
+        <button class="ipaButton" title="Subscript right half-ring - More rounded" onclick="ipaButton('̹')">̹</button>
+        <button class="ipaButton" title="Subscript left half-ring - Less rounded" onclick="ipaButton('̜')">̜</button>
+        <button class="ipaButton" title="Subscript plus - Advanced" onclick="ipaButton('̟')">̟</button>
+        <button class="ipaButton" title="Under-bar - Retracted" onclick="ipaButton('̠')">̠</button>
+        <button class="ipaButton" title="Umlaut - Centralized" onclick="ipaButton('̈')">̈</button>
+        <button class="ipaButton" title="Over-cross - Mid-centralized" onclick="ipaButton('̽')">̽</button>
+        <button class="ipaButton" title="Advancing sign - Advanced tongue root" onclick="ipaButton('̘')">̘</button>
+        <button class="ipaButton" title="Retracting sign - Retracted tongue root" onclick="ipaButton('̙')">̙</button>
+        <button class="ipaButton" title="Right Hook - Rhoticity" onclick="ipaButton('˞')">˞</button>
+        <button class="ipaButton" title="Superscript W - Labialized" onclick="ipaButton('ʷ')">ʷ</button>
+        <button class="ipaButton" title="Superscript J - Palatalized" onclick="ipaButton('ʲ')">ʲ</button>
+        <button class="ipaButton" title="Superscript gamma - Velarized" onclick="ipaButton('ˠ')">ˠ</button>
+        <button class="ipaButton" title="Superscript reversed glottal stop - Pharyngealized" onclick="ipaButton('ˤ')">ˤ</button>
+        <button class="ipaButton" title="Superscript tilde - Nasalized" onclick="ipaButton('̃')">̃</button>
+        <button class="ipaButton" title="Superscript N - Nasal release" onclick="ipaButton('ⁿ')">ⁿ</button>
+        <button class="ipaButton" title="Superscript L - Lateral release" onclick="ipaButton('ˡ')">ˡ</button>
+        <button class="ipaButton" title="Corner - No audible release" onclick="ipaButton('̚')">̚</button>
+        <button class="ipaButton" title="Superimposed tilde - Velarized or pharyngealized" onclick="ipaButton('̴')">̴</button>
+        <button class="ipaButton" title="Raising sign - Raised" onclick="ipaButton('̝')">̝</button>
+        <button class="ipaButton" title="Raising sign - Raised" onclick="ipaButton('˔')">˔</button>
+        <button class="ipaButton" title="Lowering sign - Lowered" onclick="ipaButton('̞')">̞</button>
+        <button class="ipaButton" title="Lowering sign - Lowered" onclick="ipaButton('˕')">˕</button>
+        <button class="ipaButton" title="Syllabicity mark - Syllabic" onclick="ipaButton('̩')">̩</button>
+        <button class="ipaButton" title="Subscript arch - Non-syllabic" onclick="ipaButton('̯')">̯</button>
+        <button class="ipaButton" title="Top tie bar - Affricate or double articulation" onclick="ipaButton('͡')">͡</button>
+        <button class="ipaButton" title="Bottom tie bar - Affricate or double articulation" onclick="ipaButton('͜')">͜</button>
+        <button class="ipaButton" title="Subscript right hook - Rhoticity" onclick="ipaButton('̢')">̢</button>
+        <button class="ipaButton" title="Open corner - Release / burst" onclick="ipaButton('˹')">˹</button>
+        <button class="ipaButton" title="Comma - Pause (comma)" onclick="ipaButton(',')">,</button>
+        <button class="ipaButton" title="Reversed apostrophe - Weak aspiration" onclick="ipaButton('ʻ')">ʻ</button>
+        <button class="ipaButton" title="Over-dot - Palatalization/centralization" onclick="ipaButton('̇')">̇</button>
+        <button class="ipaButton" title="Minus sign - Retracted variety (backed)" onclick="ipaButton('˗')">˗</button>
+        <button class="ipaButton" title="Plus sign - Advanced variety (fronted)" onclick="ipaButton('˖')">˖</button>
+        <button class="ipaButton" title="Superscript Y - High-front rounding / palatalized" onclick="ipaButton('ʸ')">ʸ</button>
+        <button class="ipaButton" title="Under-dot - Closer variety / fricative" onclick="ipaButton('̣')">̣</button>
+        <button class="ipaButton" title="Subscript left hook - Palatalized" onclick="ipaButton('̡')">̡</button>
+        <button class="ipaButton" title="Subscript W - Labialized" onclick="ipaButton('̫')">̫</button>
+        <button class="ipaButton" title="Vertical stroke (Superior) - Primary stress " onclick="ipaButton('ˈ')">ˈ</button>
+        <button class="ipaButton" title="Vertical stroke (Inferior) - Secondary stress" onclick="ipaButton('ˌ')">ˌ</button>
+        <button class="ipaButton" title="Length mark - Length mark" onclick="ipaButton('ː')">ː</button>
+        <button class="ipaButton" title="Half-length mark - Half-length" onclick="ipaButton('ˑ')">ˑ</button>
+        <button class="ipaButton" title="Breve - Extra-short" onclick="ipaButton('̆')">̆</button>
+        <button class="ipaButton" title="Period - Syllable break" onclick="ipaButton('.')">.</button>
+        <button class="ipaButton" title="Vertical line (thick) - Minor (foot) group" onclick="ipaButton('|')">|</button>
+        <button class="ipaButton" title="Double vertical line (thick) - Major (intonation) group" onclick="ipaButton('‖')">‖</button>
+        <button class="ipaButton" title="Bottom tie bar - Linking (absence of a break)" onclick="ipaButton('‿')">‿</button>
+        <button class="ipaButton" title="Upward diagonal arrow - Global rise" onclick="ipaButton('↗')">↗</button>
+        <button class="ipaButton" title="Downward diagonal arrow - Global fall" onclick="ipaButton('↘')">↘</button>
+        <button class="ipaButton" title="Double acute accent (over) - Extra high level" onclick="ipaButton('̋')">̋</button>
+        <button class="ipaButton" title="Acute accent (over) - High level" onclick="ipaButton('́')">́</button>
+        <button class="ipaButton" title="Macron - Mid level" onclick="ipaButton('̄')">̄</button>
+        <button class="ipaButton" title="Grave accent (over) - Low level" onclick="ipaButton('̀')">̀</button>
+        <button class="ipaButton" title="Double grave accent (over) - Extra low level" onclick="ipaButton('̏')">̏</button>
+        <button class="ipaButton" title="Down arrow - Downstep" onclick="ipaButton('ꜛ')">ꜛ</button>
+        <button class="ipaButton" title="Up arrow - Upstep" onclick="ipaButton('ꜜ')">ꜜ</button>
+        <button class="ipaButton" title="Extra-high tone letter - Extra high level" onclick="ipaButton('˥')">˥</button>
+        <button class="ipaButton" title="High tone letter - High level" onclick="ipaButton('˦')">˦</button>
+        <button class="ipaButton" title="Mid tone letter - Mid level" onclick="ipaButton('˧')">˧</button>
+        <button class="ipaButton" title="Low tone letter - Low level" onclick="ipaButton('˨')">˨</button>
+        <button class="ipaButton" title="Extra-low tone letter - Extra low level" onclick="ipaButton('˩')">˩</button>
+        <button class="ipaButton" title="Wedge - Rising contour" onclick="ipaButton('̌')">̌</button>
+        <button class="ipaButton" title="Circumflex - Falling contour" onclick="ipaButton('̂')">̂</button>
+        <button class="ipaButton" title="Macron plus acute accent - High rising contour" onclick="ipaButton('᷄')">᷄</button>
+        <button class="ipaButton" title="Grave accent plus macron - Low rising contour" onclick="ipaButton('᷅')">᷅</button>
+        <button class="ipaButton" title="Grave plus acute plus grave accent - Rising-falling contour" onclick="ipaButton('᷈')">᷈</button>
+        <button class="ipaButton" title="Superscript arch - Long falling tone / advanced / palatal" onclick="ipaButton('̑')">̑</button>
+        <button class="ipaButton" title="Wedge; hacek - Falling-rising tone" onclick="ipaButton('ˇ')">ˇ</button>
+        <button class="ipaButton" title="Circumflex - Rising-falling tone" onclick="ipaButton('ˆ')">ˆ</button>
+        <button class="ipaButton" title="Subscript grave accent - Low falling tone" onclick="ipaButton('̖')">̖</button>
+        <button class="ipaButton" title="Subscript grave accent - Low falling tone" onclick="ipaButton('ˎ')">ˎ</button>
+        <button class="ipaButton" title="Subscript acute accent - Low rising tone" onclick="ipaButton('̗')">̗</button>
+        <button class="ipaButton" title="Subscript acute accent - Low rising tone" onclick="ipaButton('ˏ')">ˏ</button>
+        <button class="ipaButton" title="Double bridge - Bidental percussive" onclick="ipaButton('ʭ')">ʭ</button>
+        <button class="ipaButton" title="F-Eng ligature - Velopharyngeal fricative" onclick="ipaButton('ʩ')">ʩ</button>
+        <button class="ipaButton" title="L-S ligature - Lateralized [s]" onclick="ipaButton('ʪ')">ʪ</button>
+        <button class="ipaButton" title="L-Z ligature - Laterialized [z]" onclick="ipaButton('ʫ')">ʫ</button>
+        <button class="ipaButton" title="Balloon - Unidentified segment(s)" onclick="ipaButton('❍')">❍</button>
+        <button class="ipaButton" title="Asterisk - Placeholder symbol" onclick="ipaButton('*')">*</button>
+        <button class="ipaButton" title="Upper-case V - V (Voice)" onclick="ipaButton('V')">V</button>
+        <button class="ipaButton" title="Upper-case F - F (Falsetto)" onclick="ipaButton('F')">F</button>
+        <button class="ipaButton" title="Upper-case W - W (Whisper)" onclick="ipaButton('W')">W</button>
+        <button class="ipaButton" title="Upper-case C - C (Creak)" onclick="ipaButton('C')">C</button>
+        <button class="ipaButton" title="Upper-case L - L (Larynx)" onclick="ipaButton('L')">L</button>
+        <button class="ipaButton" title="Upper-case J - J (Jaw)" onclick="ipaButton('J')">J</button>
+        <button class="ipaButton" title="Upper-case O-E ligature - Oesophageal speech" onclick="ipaButton('Œ')">Œ</button>
+        <button class="ipaButton" title="Upper-case Greek Theta - Protruded-tongue voice" onclick="ipaButton('Θ')">Θ</button>
+        <button class="ipaButton" title="Forte - Loud speech" onclick="ipaButton('𝆑')">𝆑</button>
+        <button class="ipaButton" title="Piano - Quiet speech" onclick="ipaButton('𝆏')">𝆏</button>
+        <button class="ipaButton" title="Numeral one - Slight degree" onclick="ipaButton('1')">1</button>
+        <button class="ipaButton" title="Numeral two - Moderate degree" onclick="ipaButton('2')">2</button>
+        <button class="ipaButton" title="Numeral three - Extreme degree" onclick="ipaButton('3')">3</button>
+        <button class="ipaButton" title="Superscript bridge - Dentolabial" onclick="ipaButton('͆')">͆</button>
+        <button class="ipaButton" title="Subscript double arrow - Labial spreading" onclick="ipaButton('͍')">͍</button>
+        <button class="ipaButton" title="Superscript slashed tilde - Denasal" onclick="ipaButton('͊')">͊</button>
+        <button class="ipaButton" title="Superscript dotted tilde - Nasal escape" onclick="ipaButton('͋')">͋</button>
+        <button class="ipaButton" title="Superscript double tilde - Velopharyngeal friction" onclick="ipaButton('͌')">͌</button>
+        <button class="ipaButton" title="Subscript double syllabicity mark - Stronger articulation" onclick="ipaButton('͈')">͈</button>
+        <button class="ipaButton" title="Subscript corner - Weaker articulation" onclick="ipaButton('͉')">͉</button>
+        <button class="ipaButton" title="Backslash - Reiterated articulation" onclick="ipaButton('\')">\</button>
+        <button class="ipaButton" title="Subscript upward arrow-head - Whistled articulation" onclick="ipaButton('͎')">͎</button>
+        <button class="ipaButton" title="Down full arrow - Ingressive air flow" onclick="ipaButton('↓')">↓</button>
+        <button class="ipaButton" title="Up full arrow - Egressive air flow" onclick="ipaButton('↑')">↑</button>
+        <button class="ipaButton" title="Left-sited subscript wedge, Right-sited subscript  - Post-voicing" onclick="ipaButton('ˬ')">ˬ</button>
+        <button class="ipaButton" title="Superscript cursive V - Labiodentalized" onclick="ipaButton('ᶹ')">ᶹ</button>
+        <button class="ipaButton" title="Subscript right arrow - Slurred articulation" onclick="ipaButton('͢')">͢</button>
+        <button class="ipaButton" title="Subscript equals sign - Alveolarized" onclick="ipaButton('͇')">͇</button>
+        <button class="ipaButton" title="Superscript inverted small capital R - Uvularized" onclick="ipaButton('ʶ')">ʶ</button>
+        <button class="ipaButton" title="Superscript equals sign - Unaspirated" onclick="ipaButton('˭')">˭</button>
+        <button class="ipaButton" title="Subscript left pointer - Laterally offset to the right" onclick="ipaButton('˱')">˱</button>
+        <button class="ipaButton" title="Subscript right pointer - Laterally offset to the left" onclick="ipaButton('˲')">˲</button>
+        <button class="ipaButton" title="Right-sited subscript tilde - Creaky" onclick="ipaButton('˷')">˷</button>
+        <button class="ipaButton" title="Upper-case A - A" onclick="ipaButton('A')">A</button>
+        <button class="ipaButton" title="Upper-case B - B" onclick="ipaButton('B')">B</button>
+        <button class="ipaButton" title="Upper-case D - D" onclick="ipaButton('D')">D</button>
+        <button class="ipaButton" title="Upper-case E - E" onclick="ipaButton('E')">E</button>
+        <button class="ipaButton" title="Upper-case G - G" onclick="ipaButton('G')">G</button>
+        <button class="ipaButton" title="Upper-case H - H" onclick="ipaButton('H')">H</button>
+        <button class="ipaButton" title="Upper-case I - I" onclick="ipaButton('I')">I</button>
+        <button class="ipaButton" title="Upper-case K - K" onclick="ipaButton('K')">K</button>
+        <button class="ipaButton" title="Upper-case M - M" onclick="ipaButton('M')">M</button>
+        <button class="ipaButton" title="Upper-case N - N" onclick="ipaButton('N')">N</button>
+        <button class="ipaButton" title="Upper-case O - O" onclick="ipaButton('O')">O</button>
+        <button class="ipaButton" title="Upper-case P - P" onclick="ipaButton('P')">P</button>
+        <button class="ipaButton" title="Upper-case Q - Q" onclick="ipaButton('Q')">Q</button>
+        <button class="ipaButton" title="Upper-case R - R" onclick="ipaButton('R')">R</button>
+        <button class="ipaButton" title="Upper-case S - S" onclick="ipaButton('S')">S</button>
+        <button class="ipaButton" title="Upper-case T - T" onclick="ipaButton('T')">T</button>
+        <button class="ipaButton" title="Upper-case U - U" onclick="ipaButton('U')">U</button>
+        <button class="ipaButton" title="Upper-case X - X" onclick="ipaButton('X')">X</button>
+        <button class="ipaButton" title="Upper-case Y - Y" onclick="ipaButton('Y')">Y</button>
+        <button class="ipaButton" title="Upper-case Z - Z" onclick="ipaButton('Z')">Z</button>
+        <button class="ipaButton" title="Left square bracket - Begin phonetic transcription" onclick="ipaButton('[')">[</button>
+        <button class="ipaButton" title="Right square bracket - End phonetic transcription" onclick="ipaButton(']')">]</button>
+        <button class="ipaButton" title="Forward slash - Begin/end phonemic transcription" onclick="ipaButton('/')">/</button>
+        <button class="ipaButton" title="Left parenthesis - Silent articulation (Mouthing), Indistinguishable utterance (begin)" onclick="ipaButton('(')">(</button>
+        <button class="ipaButton" title="Right parenthesis - Silent articulation (Mouthing), Indistinguishable utterance (end)" onclick="ipaButton(')')">)</button>
+        <button class="ipaButton" title="Left brace - Begin prosodic notation" onclick="ipaButton('{')">{</button>
+        <button class="ipaButton" title="Right brace - End prosodic notation" onclick="ipaButton('}')">}</button>
+      </div>
+    </div>
+  </body>
+</html>
